@@ -1,3 +1,25 @@
 .BlogDialog > div:nth-child(3) > div {
   min-width: 50vw;
 }
+
+.BlogDialog .img-container {
+  position: relative;
+  width: 100%;
+}
+
+.BlogDialog .img-container .btn-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.BlogDialog .img-container img {
+  width: 100%;
+  object-fit: cover;
+}

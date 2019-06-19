@@ -10,7 +10,7 @@ function reducer(state, action) {
       return { ...state, snackbar: action.payload };
     case "editmode":
       if (action.payload) {
-        return { ...state, editMode: action.payload, userCopy: { ...state.user } };
+        return { ...state, editMode: action.payload, formCopy: { ...state.user } };
       }
       return { ...state, editMode: action.payload };
     case "user":
@@ -18,8 +18,7 @@ function reducer(state, action) {
       newState.user[action.payload.name] = action.payload.value;
       return newState;
     case "reset":
-      console.log(state.userCopy, state.user);
-      return { ...state, user: state.userCopy };
+      return { ...state, user: state.formCopy };
     default:
       throw new Error();
   }
@@ -34,7 +33,7 @@ const initialState = {
     bio: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima, natus.",
     location: "The mushroom kingdom"
   },
-  userCopy: {}
+  formCopy: {}
 };
 
 export function ContextProvider({ children }) {

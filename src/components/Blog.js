@@ -6,47 +6,13 @@ import BlogDialog from "./BlogDialog";
 
 const itemsHardCoded = [
   {
-    id: 6,
-    title: "Project YouTube",
-    description: [
-      "I've started to release coding videos on YouTube. So far I've just released a few and I realize there are many improvements to be made as of now, but we'll get there.",
-      "I'm planning to release one video a week, so let's see if we can maintain that goal.",
-      "The main objective is to find some area of programming using JavaScript that haven't been covered and make a video to show people how I have done it.",
-      "Hit me up for any ideas you might have."
-    ],
-    img: "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-  },
-  {
-    id: 1,
-    title: "Secondhand priser",
-    description: [
-      "This website intended use is for looking up secondhand goods in Denmark.",
-      "In Denmark there are many websites where you can buy/sell used items and it can be pain to check them all out one by one.",
-      "This site solves the problem by fetching all the products from the different sites and putting them in one place.",
-      "One of the key features is that it also scrapes items off Facebook Marketplace, which cannot be done by a simple webscraper tool."
-    ],
-    img: "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-  },
-  {
     id: 2,
     title: "Secondhand priser",
-    description: [
-      "This website intended use is for looking up secondhand goods in Denmark.",
-      "In Denmark there are many websites where you can buy/sell used items and it can be pain to check them all out one by one.",
-      "This site solves the problem by fetching all the products from the different sites and putting them in one place.",
-      "One of the key features is that it also scrapes items off Facebook Marketplace, which cannot be done by a simple webscraper tool."
-    ],
-    img: "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-  },
-  {
-    id: 3,
-    title: "Secondhand priser",
-    description: [
-      "This website intended use is for looking up secondhand goods in Denmark.",
-      "In Denmark there are many websites where you can buy/sell used items and it can be pain to check them all out one by one.",
-      "This site solves the problem by fetching all the products from the different sites and putting them in one place.",
-      "One of the key features is that it also scrapes items off Facebook Marketplace, which cannot be done by a simple webscraper tool."
-    ],
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n",
     img: "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
   }
 ];
@@ -54,6 +20,7 @@ const itemsHardCoded = [
 export default function Blog() {
   const [id, setId] = useState(0);
   const [items, setItems] = useState([]);
+  const [copy, setCopy] = useState(null);
 
   useEffect(() => {
     setItems(itemsHardCoded);
@@ -76,6 +43,23 @@ export default function Blog() {
     setId(0);
   }
 
+  function handleEdit() {
+    const newCopy = JSON.parse(JSON.stringify(items)); // since we have an array of objects, we need a deep clone
+    setCopy(newCopy);
+  }
+
+  function handleCancel() {
+    console.log("stored in copy is", copy);
+    setItems(copy);
+  }
+
+  function handleChange(e) {
+    const newData = [...items];
+    const index = newData.findIndex(d => d.id === id);
+    newData[index][e.target.name] = e.target.value;
+    setItems(newData);
+  }
+
   const itemsRendered = items.map(item => {
     return (
       <Card>
@@ -84,7 +68,7 @@ export default function Blog() {
           <CardContent>
             <Typography variant="h5">{item.title}</Typography>
             <Typography variant="body1" className="description">
-              {item.description[0]}
+              {item.description}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -106,7 +90,15 @@ export default function Blog() {
           ))}
         </div>
       </Paper>
-      <BlogDialog open={Boolean(id)} onClose={() => setId(0)} onDelete={handleDelete} item={id ? items.find(i => i.id === id) : null} />
+      <BlogDialog
+        open={Boolean(id)}
+        onClose={() => setId(0)}
+        onDelete={handleDelete}
+        onCancel={handleCancel}
+        onEdit={handleEdit}
+        onChange={handleChange}
+        item={id ? items.find(i => i.id === id) : null}
+      />
     </div>
   );
 }
