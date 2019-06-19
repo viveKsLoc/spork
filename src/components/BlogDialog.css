@@ -1,0 +1,3 @@
+.BlogDialog > div:nth-child(3) > div {
+  min-width: 50vw;
+}

@@ -1,0 +1,9 @@
+.bio-wrapper {
+  position: relative;
+}
+
+.bio-edit {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}
