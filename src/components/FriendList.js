@@ -6,8 +6,8 @@ export default function FriendList({ friends, dispatch }) {
     <Paper>
       <List subheader={<ListSubheader>Friends</ListSubheader>}>
         <Divider />
-        {friends.map(friend => (
-          <ListItem button onClick={() => dispatch({ type: "switchUser", payload: friend })}>
+        {friends.map((friend, index) => (
+          <ListItem key={`f${index}`} button onClick={() => dispatch({ type: "switchUser", payload: friend })}>
             <ListItemAvatar>
               <Avatar src={friend.pic} />
             </ListItemAvatar>

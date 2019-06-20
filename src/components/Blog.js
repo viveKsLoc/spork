@@ -127,7 +127,9 @@ export default function Blog({ isOwner }) {
       <Paper>
         <div className="posts">
           {trail.map((props, i) => (
-            <animated.div style={props}>{itemsRendered[i]}</animated.div>
+            <animated.div key={i} style={props}>
+              {itemsRendered[i]}
+            </animated.div>
           ))}
         </div>
       </Paper>

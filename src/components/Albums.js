@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "./Albums.css";
 import Album from "./Album";
 import { animated, useSprings } from "react-spring";
-import { Paper, Button } from "@material-ui/core";
+import { Paper, Button, IconButton } from "@material-ui/core";
+import { KeyboardBackspace } from "@material-ui/icons";
 
 const albums = [
   {
@@ -64,19 +65,20 @@ export default function Albums({ isOwner }) {
     setSelectedAlbum(e);
   }
 
+  const albumSelected = selectedAlbum.id;
+
   const albumSelectedAnimate = useSprings(
     albums.length,
     albums.map(al => ({
       from: {
         opacity: 0,
         transform: "translate3d(0,-15px,0)",
-        position: "auto"
+        display: "block"
       },
       to: {
-        opacity: selectedAlbum.id && al.id !== selectedAlbum.id ? 0 : 1,
-        transform: selectedAlbum.id && al.id !== selectedAlbum.id ? "translate3d(0,-200px,0)" : "translate3d(0,0px,0)",
-        position: selectedAlbum.id ? "absolute" : "auto",
-        pointerEvents: selectedAlbum.id && al.id !== selectedAlbum.id ? "none" : "auto"
+        opacity: albumSelected && al.id !== albumSelected ? 0 : 1,
+        transform: albumSelected && al.id !== albumSelected ? "translate3d(0,-200px,0)" : "translate3d(0,0px,0)",
+        display: albumSelected && al.id !== albumSelected ? "none" : "block"
       }
     }))
   );
@@ -90,12 +92,17 @@ export default function Albums({ isOwner }) {
               New album
             </Button>
             <Button>Upload new image</Button>
+            {albumSelected && (
+              <Button onClick={() => setSelectedAlbum({})}>
+                <KeyboardBackspace />
+              </Button>
+            )}
           </Paper>
         ) : null}
-        <div className="album-grid">
+        <div className="album-grid" style={{ display: albumSelected ? "block" : "grid" }}>
           {albumSelectedAnimate.map((animation, index) => (
             <animated.div style={animation}>
-              <Album item={albums[index]} onClick={handleAlbumClick} selected={albums[index].id === selectedAlbum.id} />
+              <Album item={albums[index]} onClick={handleAlbumClick} selected={albums[index].id === albumSelected} />
             </animated.div>
           ))}
         </div>

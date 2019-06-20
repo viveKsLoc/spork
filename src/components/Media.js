@@ -93,8 +93,8 @@ export default function Media() {
       <animated.div style={animateWrapper}>
         <Paper>
           <List disablePadding>
-            {media.map(item => (
-              <ListItem divider>
+            {media.map((item, index) => (
+              <ListItem divider key={`mi_${index}`}>
                 {item.id !== -1 ? (
                   <>
                     <ListItemAvatar>{getLogo(item.type)}</ListItemAvatar>

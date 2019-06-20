@@ -53,7 +53,7 @@ export default function CoverPicture() {
 
   const tab2animation = useSpring({
     opacity: tab === 2 ? 1 : 0,
-    transform: tab === 2 ? `translate3d(100px,0px,0)` : `translate3d(0px,0,0)`
+    transform: tab === 2 ? `translate3d(130px,0px,0)` : `translate3d(0px,0,0)`
   });
 
   return (
