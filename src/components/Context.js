@@ -17,6 +17,8 @@ function reducer(state, action) {
       const newState = { ...state };
       newState.user[action.payload.name] = action.payload.value;
       return newState;
+    case "switchUser":
+      return { ...state, user: action.payload };
     case "reset":
       return { ...state, user: state.formCopy };
     default:
@@ -28,12 +30,48 @@ const initialState = {
   tab: 0,
   snackbar: null,
   editMode: false,
+  auth: {
+    id: 1
+  },
   user: {
     name: "Sonic",
     bio: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima, natus.",
-    location: "The mushroom kingdom"
+    location: "The mushroom kingdom",
+    id: 1,
+    pic:
+      "https://cdn.vox-cdn.com/thumbor/AVRKydHKlpRjC2ZwpxquoY_Bntk=/0x26:640x453/1200x800/filters:focal(0x26:640x453)/cdn.vox-cdn.com/uploads/chorus_image/image/34182115/sonic.0.jpg",
+    friends: [2, 3]
   },
-  formCopy: {}
+  formCopy: {},
+  users: {
+    1: {
+      name: "Sonic",
+      bio: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Minima, natus.",
+      location: "The mushroom kingdom",
+      pic:
+        "https://cdn.vox-cdn.com/thumbor/AVRKydHKlpRjC2ZwpxquoY_Bntk=/0x26:640x453/1200x800/filters:focal(0x26:640x453)/cdn.vox-cdn.com/uploads/chorus_image/image/34182115/sonic.0.jpg",
+      friends: [2, 3],
+      id: 1
+    },
+    2: {
+      name: "Tails",
+      bio: "Hey im Tails.",
+      isOnline: true,
+      location: "Denmark",
+      pic: "http://images6.fanpop.com/image/photos/40100000/Advance-Tails-tails-40194355-1203-1394.png",
+      friends: [1],
+      id: 2
+    },
+    3: {
+      name: "Knuckles",
+      bio: "Red devil",
+      isOnline: false,
+      location: "Destiny",
+      pic: "https://i.pinimg.com/originals/97/48/fd/9748fdc48a24b4b3fa74f0fe30c33fde.png",
+      friends: [1],
+      id: 3
+    }
+  }
 };
 
 export function ContextProvider({ children }) {

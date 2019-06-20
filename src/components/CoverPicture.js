@@ -8,7 +8,7 @@ import { Edit, Save } from "@material-ui/icons";
 import { useSpring, animated, useTransition } from "react-spring";
 
 export default function CoverPicture() {
-  const { tab, editMode, dispatch } = useContext(Context);
+  const { tab, editMode, dispatch, auth, user } = useContext(Context);
 
   function handleCancel() {
     dispatch({ type: "editmode", payload: !editMode });
@@ -43,7 +43,12 @@ export default function CoverPicture() {
       <div className="edit">
         <div className="edit-center">
           <animated.div className="fab-div" style={animateFab}>
-            <Fab className="icon" color="secondary" onClick={() => dispatch({ type: "editmode", payload: !editMode })}>
+            <Fab
+              className="icon"
+              color="secondary"
+              onClick={() => dispatch({ type: "editmode", payload: !editMode })}
+              style={{ display: auth.id === user.id ? "block" : "none" }}
+            >
               {transition.map(({ item, _, props }) =>
                 item ? (
                   <animated.div style={props}>

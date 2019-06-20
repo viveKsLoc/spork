@@ -22,7 +22,7 @@
 .CoverPicture .edit-center {
   display: flex;
   height: 90%;
-  max-width: 1000px;
+  max-width: var(--maxWidth);
   margin: auto;
   align-items: flex-end;
 }

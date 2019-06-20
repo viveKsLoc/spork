@@ -7,6 +7,7 @@ import ProfilePic from "./ProfilePic";
 import Bio from "./Bio";
 import { LocationOn, Subject, Image, Extension } from "@material-ui/icons";
 import FriendList from "./FriendList";
+import Media from "./Media";
 
 const menuPoints = [
   { text: "Blog", icon: <Subject color="secondary" /> },
@@ -15,23 +16,39 @@ const menuPoints = [
 ];
 
 export default function Main() {
-  const { tab, snackbar, dispatch, editMode, user } = useContext(Context);
+  const { tab, snackbar, dispatch, editMode, user, users, auth } = useContext(Context);
 
   function renderFeed() {
     switch (tab) {
       case 0:
-        return <Blog />;
+        return <Blog isOwner={auth.id === user.id} />;
       case 1:
-        return <Albums />;
+        return <Albums isOwner={auth.id === user.id} />;
+      case 2:
+        return <Media />;
+      default:
+        return new Error("Missing tab");
     }
   }
+
+  const userFriends = user.friends.map(u => users[u]);
 
   return (
     <div className="grid">
       <Paper className="grid-left">
-        <ProfilePic editMode={editMode} />
+        <ProfilePic editMode={editMode} pic={user.pic} />
         <List>
-          <ListItem>{!editMode ? <Typography variant="body1">{user.name}</Typography> : <TextField value={user.name} />}</ListItem>
+          <ListItem>
+            {!editMode ? (
+              <Typography variant="body1">{user.name}</Typography>
+            ) : (
+              <TextField
+                name="name"
+                onChange={e => dispatch({ type: "user", payload: { name: e.target.name, value: e.target.value } })}
+                value={user.name}
+              />
+            )}
+          </ListItem>
           <ListItem>
             <LocationOn style={{ marginRight: 5 }} />
             {!editMode ? (
@@ -47,7 +64,7 @@ export default function Main() {
             )}
           </ListItem>
           <ListItem>
-            <Bio bio={user.bio} editMode={editMode} />
+            <Bio bio={user.bio} editMode={editMode} dispatch={dispatch} />
           </ListItem>
           {menuPoints.map((point, i) => (
             <ListItem key={`menu_${i}`} button selected={tab === i} onClick={() => dispatch({ type: "setTab", payload: i })}>
@@ -58,7 +75,7 @@ export default function Main() {
         </List>
       </Paper>
       {renderFeed()}
-      <FriendList />
+      <FriendList friends={userFriends} dispatch={dispatch} />
       {snackbar ? (
         <Snackbar
           message={<span>{snackbar.text}</span>}

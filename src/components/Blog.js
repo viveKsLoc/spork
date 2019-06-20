@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Paper, Card, CardMedia, CardContent, Typography, Button, CardActionArea } from "@material-ui/core";
+import { Paper, Card, CardMedia, CardContent, Typography, Button, CardActionArea, CardHeader } from "@material-ui/core";
 import "./Blog.css";
-import { useTransition, animated, useTrail, useSpring } from "react-spring";
+import { animated, useTrail } from "react-spring";
 import BlogDialog from "./BlogDialog";
+import noImage from "../assets/no-image.png";
 
 const itemsHardCoded = [
   {
@@ -17,7 +18,7 @@ const itemsHardCoded = [
   }
 ];
 
-export default function Blog() {
+export default function Blog({ isOwner }) {
   const [id, setId] = useState(0);
   const [items, setItems] = useState([]);
   const [copy, setCopy] = useState(null);
@@ -49,8 +50,14 @@ export default function Blog() {
   }
 
   function handleCancel() {
-    console.log("stored in copy is", copy);
-    setItems(copy);
+    // if we cancel and the id is -1, remove it
+    if (id === -1) {
+      const newItems = items.filter(i => i.id !== -1);
+      setItems(newItems);
+      setId(0);
+    } else {
+      setItems(copy);
+    }
   }
 
   function handleChange(e) {
@@ -60,13 +67,39 @@ export default function Blog() {
     setItems(newData);
   }
 
+  function createNew() {
+    const item = { id: -1, title: "", description: "", img: "" };
+    const newItems = items.concat(item);
+    setItems(newItems);
+    setId(-1);
+  }
+
+  function handleSave() {
+    if (id === -1) {
+      const randomId = Math.floor(Math.random() * Math.floor(10000));
+      const index = items.findIndex(el => el.id === -1);
+      const newItems = [...items];
+      newItems[index].id = randomId;
+      setItems(newItems);
+      setId(0);
+    }
+  }
+
+  function handleClose() {
+    if (id === -1) {
+      const newItems = items.filter(i => i.id !== -1);
+      setItems(newItems);
+    }
+    setId(0);
+  }
+
   const itemsRendered = items.map(item => {
     return (
       <Card>
         <CardActionArea onClick={() => setId(item.id)}>
-          <CardMedia component="img" src={item.img} height={100} />
+          <CardMedia component="img" src={item.img} height={100} onError={e => (e.target.src = noImage)} />
+          <CardHeader title={item.title} />
           <CardContent>
-            <Typography variant="h5">{item.title}</Typography>
             <Typography variant="body1" className="description">
               {item.description}
             </Typography>
@@ -76,13 +109,20 @@ export default function Blog() {
     );
   });
 
+  let itemToPass = id ? items.find(i => i.id === id) : null;
+
   return (
     <div className="Blog">
-      <Paper className="menu">
-        <Button variant="outlined" color="secondary">
-          New blog
-        </Button>
-      </Paper>
+      {isOwner ? (
+        <Paper className="menu">
+          <Button variant="outlined" color="secondary" onClick={createNew}>
+            New blog
+          </Button>
+          <Button color="secondary" variant="text">
+            Archive
+          </Button>
+        </Paper>
+      ) : null}
       <Paper>
         <div className="posts">
           {trail.map((props, i) => (
@@ -91,13 +131,14 @@ export default function Blog() {
         </div>
       </Paper>
       <BlogDialog
-        open={Boolean(id)}
-        onClose={() => setId(0)}
+        open={id !== 0}
+        onClose={handleClose}
         onDelete={handleDelete}
         onCancel={handleCancel}
         onEdit={handleEdit}
         onChange={handleChange}
-        item={id ? items.find(i => i.id === id) : null}
+        onSave={handleSave}
+        item={itemToPass}
       />
     </div>
   );
