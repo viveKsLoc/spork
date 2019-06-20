@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import "./CoverPicture.css";
+
+import Context from "./Context";
+import { Button, Fab, Avatar } from "@material-ui/core";
+import { Edit, Save, Movie, Games, School, Book, Star } from "@material-ui/icons";
+import { useSpring, animated, useTransition } from "react-spring";
+
 import img1 from "../assets/1.jpeg";
 import img2 from "../assets/2.jpeg";
-import Context from "./Context";
-import { Button, Fab } from "@material-ui/core";
-import { Edit, Save } from "@material-ui/icons";
-import { useSpring, animated, useTransition } from "react-spring";
+import img3 from "../assets/3.jpeg";
 
 export default function CoverPicture() {
   const { tab, editMode, dispatch, auth, user } = useContext(Context);
@@ -15,7 +18,18 @@ export default function CoverPicture() {
     dispatch({ type: "reset" });
   }
 
-  const url = tab === 0 ? img1 : img2;
+  function getUrl(tab_) {
+    switch (tab_) {
+      case 0:
+        return img1;
+      case 1:
+        return img2;
+      case 2:
+        return img3;
+    }
+  }
+
+  const url = getUrl(tab);
 
   const animateFab = useSpring({ transform: tab === 0 ? "scale(1)" : "scale(0.5)", opacity: tab === 0 ? 1 : 0 });
 
@@ -35,6 +49,11 @@ export default function CoverPicture() {
       transform: "rotate(0deg)",
       position: "absolute"
     }
+  });
+
+  const tab2animation = useSpring({
+    opacity: tab === 2 ? 1 : 0,
+    transform: tab === 2 ? `translate3d(100px,0px,0)` : `translate3d(0px,0,0)`
   });
 
   return (
@@ -66,6 +85,20 @@ export default function CoverPicture() {
                 Cancel
               </Button>
             </animated.div>
+          </animated.div>
+          <animated.div className="Tab2-top-div" style={tab2animation}>
+            <Avatar>
+              <Movie color="secondary" />
+            </Avatar>
+            <Avatar>
+              <Games color="secondary" />
+            </Avatar>
+            <Avatar>
+              <School color="secondary" />
+            </Avatar>
+            <Avatar>
+              <Book color="secondary" />
+            </Avatar>
           </animated.div>
         </div>
       </div>

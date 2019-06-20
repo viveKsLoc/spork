@@ -2,8 +2,10 @@ import React, { useState, useRef, useContext } from "react";
 import { useSpring, animated, useTransition } from "react-spring";
 import "./ProfilePic.css";
 import { IconButton } from "@material-ui/core";
-import { Image } from "@material-ui/icons";
+import { Image, Movie } from "@material-ui/icons";
 import Context from "./Context";
+
+const yAxis = "-210px";
 
 export default function ProfilePic({ editMode, pic }) {
   const [isHover, setIsHover] = useState(false);
@@ -11,14 +13,27 @@ export default function ProfilePic({ editMode, pic }) {
 
   const fileInput = useRef(null);
 
+  function getAnimationValues(tab_) {
+    switch (tab_) {
+      case 0:
+        return ["translate3d(0px,0px,0) scale(1)", "static", "", 200];
+      case 1:
+        return [`translate3d(0,${yAxis},0) scale(0.9)`, "absolute", 200, 200];
+      case 2:
+        return [`translate3d(0,${yAxis},0) scale(0.9)`, "absolute", 200, 200];
+    }
+  }
+
+  const [transform, position, width, height] = getAnimationValues(tab);
+
   const profilePic = useSpring({
-    transform: tab === 1 ? "translate3d(0,-210px,0) scale(0.9)" : "translate3d(0px,0px,0) scale(1)",
-    position: tab === 1 ? "absolute" : "static",
-    width: tab === 1 ? 200 : "",
-    height: tab === 1 ? 200 : 200 /* we cannot go from 100% to 200px so 200 -> 200 for now */
+    transform,
+    position,
+    width,
+    height /* we cannot go from 100% to 200px so 200 -> 200 for now */
   });
 
-  const profilePicWrapper = useSpring({ height: tab === 1 ? 0 : 200 });
+  const profilePicWrapper = useSpring({ height: tab === 1 || tab === 2 ? 0 : 200 });
 
   const newPic = useSpring({ opacity: isHover ? 1 : 0 });
 

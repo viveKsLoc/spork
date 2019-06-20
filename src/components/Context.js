@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import tails from "../assets/tails.png";
 
 const Context = React.createContext();
 
@@ -31,7 +32,9 @@ const initialState = {
   snackbar: null,
   editMode: false,
   auth: {
-    id: 1
+    id: 1,
+    pic:
+      "https://cdn.vox-cdn.com/thumbor/AVRKydHKlpRjC2ZwpxquoY_Bntk=/0x26:640x453/1200x800/filters:focal(0x26:640x453)/cdn.vox-cdn.com/uploads/chorus_image/image/34182115/sonic.0.jpg"
   },
   user: {
     name: "Sonic",
@@ -58,7 +61,7 @@ const initialState = {
       bio: "Hey im Tails.",
       isOnline: true,
       location: "Denmark",
-      pic: "http://images6.fanpop.com/image/photos/40100000/Advance-Tails-tails-40194355-1203-1394.png",
+      pic: tails,
       friends: [1],
       id: 2
     },

@@ -42,3 +42,13 @@
   justify-content: center;
   align-items: center;
 }
+
+.CoverPicture .Tab2-top-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.CoverPicture .Tab2-top-div > * {
+  margin-bottom: 5px;
+  background-color: #f5f5f5;
+}

@@ -4,11 +4,12 @@ import "./Blog.css";
 import { animated, useTrail } from "react-spring";
 import BlogDialog from "./BlogDialog";
 import noImage from "../assets/no-image.png";
+import { getRandomValue } from "../functions";
 
 const itemsHardCoded = [
   {
     id: 2,
-    title: "Secondhand priser",
+    title: "A test title",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
@@ -76,7 +77,7 @@ export default function Blog({ isOwner }) {
 
   function handleSave() {
     if (id === -1) {
-      const randomId = Math.floor(Math.random() * Math.floor(10000));
+      const randomId = getRandomValue();
       const index = items.findIndex(el => el.id === -1);
       const newItems = [...items];
       newItems[index].id = randomId;
