@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AppBar, Toolbar, Avatar, IconButton, Tooltip, Menu, MenuItem, Checkbox } from "@material-ui/core";
 import Context from "./Context";
-import { People } from "@material-ui/icons";
+import { People, Style } from "@material-ui/icons";
 import { withRouter, Link } from "react-router-dom";
 
 function Nav({ history }) {
@@ -17,18 +17,13 @@ function Nav({ history }) {
     <AppBar position="fixed" color="secondary">
       <Toolbar className="Toolbar">
         <Link to="/login">
-          <img
-            src={
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Google_Material_Design_Logo.svg/1024px-Google_Material_Design_Logo.svg.png"
-            }
-            height={45}
-          />
+          <Style fontSize="large" style={{ color: "white" }} />
         </Link>
         <div style={{ flexGrow: 1 }} />
         {ctx.auth.id ? (
           <>
             <Tooltip title="Users">
-              <IconButton component={Link} to="/">
+              <IconButton component={Link} to="/users">
                 <People style={{ color: "white" }} />
               </IconButton>
             </Tooltip>
