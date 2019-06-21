@@ -15,7 +15,8 @@ const itemsHardCoded = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n" +
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Non, dolor?\n",
-    img: "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    img:
+      "https://images.pexels.com/photos/2403251/pexels-photo-2403251.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
   }
 ];
 
@@ -119,20 +120,15 @@ export default function Blog({ isOwner }) {
           <Button variant="outlined" color="secondary" onClick={createNew}>
             New blog
           </Button>
-          <Button color="secondary" variant="text">
-            Archive
-          </Button>
         </Paper>
       ) : null}
-      <Paper>
-        <div className="posts">
-          {trail.map((props, i) => (
-            <animated.div key={i} style={props}>
-              {itemsRendered[i]}
-            </animated.div>
-          ))}
-        </div>
-      </Paper>
+      <div className="posts">
+        {trail.map((props, i) => (
+          <animated.div key={i} style={props}>
+            {itemsRendered[i]}
+          </animated.div>
+        ))}
+      </div>
       <BlogDialog
         open={id !== 0}
         onClose={handleClose}
@@ -142,6 +138,7 @@ export default function Blog({ isOwner }) {
         onChange={handleChange}
         onSave={handleSave}
         item={itemToPass}
+        isOwner={isOwner}
       />
     </div>
   );

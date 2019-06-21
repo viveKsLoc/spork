@@ -1,10 +1,15 @@
 .album-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-flow: wrap;
   width: 100%;
   grid-gap: 20px;
   transition: all 0.3s ease-in;
   position: relative;
+}
+
+.album-grid > * {
+  padding: 5px 0;
+  width: 100%;
 }
 
 .album-img-grid {
@@ -26,5 +31,8 @@
   }
   .album-img-grid {
     grid-template-columns: 1fr;
+  }
+  .MuiGridListTile-root {
+    width: 100% !important;
   }
 }

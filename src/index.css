@@ -4,8 +4,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,6 +20,14 @@ main {
   position: relative;
   top: -20px;
   padding: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.Toolbar > *:not(:first-child) {
+  margin-left: 15px;
 }
 
 .grid {
@@ -38,6 +46,11 @@ main {
   width: 100%;
   object-fit: cover;
   height: 100%;
+}
+
+.nav-menu a {
+  text-decoration: none !important;
+  color: inherit;
 }
 
 @media (max-width: 700px) {

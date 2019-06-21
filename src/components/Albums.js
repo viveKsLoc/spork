@@ -1,64 +1,52 @@
 import React, { useState } from "react";
 import "./Albums.css";
 import Album from "./Album";
-import { animated, useSprings } from "react-spring";
-import { Paper, Button, IconButton } from "@material-ui/core";
-import { KeyboardBackspace } from "@material-ui/icons";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import AlbumAdmin from "./AlbumAdmin";
+import AlbumDrawer from "./AlbumDrawer";
+import AlbumSelected from "./AlbumSelected";
 
-const albums = [
+const albumsHard = [
   {
-    img: "https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    img:
+      "https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=750&w=1260",
     title: "Italy",
     date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 1
+    items: [
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/346768/pexels-photo-346768.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/346768/pexels-photo-346768.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/346768/pexels-photo-346768.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/346768/pexels-photo-346768.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2088282/pexels-photo-2088282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2088282/pexels-photo-2088282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    ],
+    id: 1,
+    description: ""
   },
   {
-    img: "https://images.pexels.com/photos/2106776/pexels-photo-2106776.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+    img:
+      "https://images.pexels.com/photos/2106776/pexels-photo-2106776.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
     title: "Germany",
     date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 2
-  },
-  {
-    img: "https://images.pexels.com/photos/541518/pexels-photo-541518.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    title: "album",
-    date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 3
-  },
-  {
-    img: "https://images.pexels.com/photos/2178175/pexels-photo-2178175.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    title: "album",
-    date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 4
-  },
-  {
-    img: "https://images.pexels.com/photos/2104152/pexels-photo-2104152.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    title: "album",
-    date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 5
-  },
-  {
-    img: "https://images.pexels.com/photos/346885/pexels-photo-346885.jpeg?auto=format%2Ccompress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    title: "Italy",
-    date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 6
-  },
-  {
-    img: "https://images.pexels.com/photos/2106776/pexels-photo-2106776.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    title: "Germany",
-    date: "2019-04-22",
-    items: [0, 1, 2, 3, 4],
-    id: 7
+    items: [
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2218344/pexels-photo-2218344.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "https://images.pexels.com/photos/2088282/pexels-photo-2088282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+    ],
+    id: 2,
+    description: ""
   }
 ];
 
 export default function Albums({ isOwner }) {
+  const [albums, setAlbums] = useState(albumsHard);
   const [selectedAlbum, setSelectedAlbum] = useState({});
+  const [showDrawer, setShowDrawer] = useState(0);
+  const [editMode, setEditMode] = useState(null);
 
   function handleAlbumClick(e) {
     console.log(e);
@@ -67,45 +55,93 @@ export default function Albums({ isOwner }) {
 
   const albumSelected = selectedAlbum.id;
 
-  const albumSelectedAnimate = useSprings(
-    albums.length,
-    albums.map(al => ({
-      from: {
-        opacity: 0,
-        transform: "translate3d(0,-15px,0)",
-        display: "block"
-      },
-      to: {
-        opacity: albumSelected && al.id !== albumSelected ? 0 : 1,
-        transform: albumSelected && al.id !== albumSelected ? "translate3d(0,-200px,0)" : "translate3d(0,0px,0)",
-        display: albumSelected && al.id !== albumSelected ? "none" : "block"
-      }
-    }))
-  );
+  function handleDragEnd({ destination, source }) {
+    if (!destination) {
+      return;
+    }
+
+    if (destination.index !== source.index) {
+      const newAlbum = [...albums];
+      const oldDest = newAlbum[destination.index];
+      newAlbum[destination.index] = newAlbum[source.index];
+      newAlbum[source.index] = oldDest;
+      setAlbums(newAlbum);
+    }
+  }
+
+  function handleCreateAlbum() {
+    setShowDrawer(true);
+  }
+
+  function handleSave(item) {
+    const newAlbums = [].concat(item, albums);
+    setAlbums(newAlbums);
+    setShowDrawer(false);
+  }
+
+  function enableEditMode(item) {
+    setShowDrawer(true);
+    setEditMode(item);
+  }
+
+  function handleClose() {
+    setShowDrawer(false);
+    setEditMode(false);
+  }
+
+  function handleEdit(item) {
+    const index = albums.findIndex(i => i.id === item.id);
+    const newAlbums = [...albums];
+    newAlbums[index] = item;
+    setAlbums(newAlbums);
+    setEditMode(false);
+  }
 
   return (
     <div>
       <div>
-        {isOwner ? (
-          <Paper className="menu">
-            <Button variant="contained" color="secondary">
-              New album
-            </Button>
-            <Button>Upload new image</Button>
-            {albumSelected && (
-              <Button onClick={() => setSelectedAlbum({})}>
-                <KeyboardBackspace />
-              </Button>
-            )}
-          </Paper>
-        ) : null}
-        <div className="album-grid" style={{ display: albumSelected ? "block" : "grid" }}>
-          {albumSelectedAnimate.map((animation, index) => (
-            <animated.div style={animation}>
-              <Album item={albums[index]} onClick={handleAlbumClick} selected={albums[index].id === albumSelected} />
-            </animated.div>
-          ))}
-        </div>
+        {isOwner && (
+          <AlbumAdmin
+            albumSelected={albumSelected}
+            onClickNewAlbum={handleCreateAlbum}
+            setSelectedAlbum={setSelectedAlbum}
+          />
+        )}
+        <DragDropContext onDragEnd={handleDragEnd}>
+          {albumSelected ? (
+            <AlbumSelected item={selectedAlbum} />
+          ) : (
+            <Droppable droppableId={1}>
+              {provided => (
+                <div ref={provided.innerRef} className="album-grid" {...provided.droppableProps}>
+                  {albums.map((item, index) => (
+                    <Draggable draggableId={`d_${index}`} index={index} isDragDisabled={Boolean(albumSelected)}>
+                      {drag => (
+                        <div {...drag.draggableProps} {...drag.dragHandleProps} ref={drag.innerRef}>
+                          <Album
+                            item={item}
+                            onClick={handleAlbumClick}
+                            selected={albumSelected}
+                            isOwner={isOwner}
+                            onEdit={enableEditMode}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          )}
+        </DragDropContext>
+        <AlbumDrawer
+          open={showDrawer}
+          onClose={handleClose}
+          onSave={handleSave}
+          editMode={editMode}
+          onEdit={handleEdit}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,17 @@
-import React, { useState } from "react";
-import { Paper, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, IconButton, Card, Button, TextField } from "@material-ui/core";
+import React, { useState, useRef } from "react";
+import {
+  Paper,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  ListItemSecondaryAction,
+  IconButton,
+  Menu,
+  Button,
+  TextField,
+  MenuItem
+} from "@material-ui/core";
 import { Edit, Movie, Book, School, Games, Error, CheckCircle, Cancel } from "@material-ui/icons";
 import "./Media.css";
 import { format } from "date-fns";
@@ -38,13 +50,19 @@ function getLogo(type) {
       return <School />;
     case "videogame":
       return <Games />;
+    case "error":
+      return <Error color="secondary" />;
     default:
-      return <Error style={{ cursor: "pointer" }} />;
+      new Error("Unknown logo");
   }
 }
 
+const categories = ["movie", "book", "education", "videogame"];
+
 export default function Media() {
   const [media, setMedia] = useState(mediaHard);
+  const avatarRef = useRef(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const animateWrapper = useSpring({
     from: {
@@ -59,7 +77,7 @@ export default function Media() {
     const newItem = {
       id: -1,
       title: "",
-      type: "",
+      type: "error",
       date: format(new Date(), "YYYY-MM-DD")
     };
     const newMedia = [].concat(newItem, media);
@@ -67,9 +85,17 @@ export default function Media() {
   }
 
   function handleChange(e) {
+    console.log(e.target.name);
     const newMedia = [...media];
     newMedia[0][e.target.name] = e.target.value;
     setMedia(newMedia);
+  }
+
+  function handleMenuChange(value) {
+    const newMedia = [...media];
+    newMedia[0].type = value;
+    setMedia(newMedia);
+    setAnchorEl(null);
   }
 
   function handleSave() {
@@ -86,7 +112,12 @@ export default function Media() {
   return (
     <div>
       <Paper className="menu">
-        <Button variant="outlined" color="primary" onClick={handleCreate}>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={handleCreate}
+          disabled={Boolean(media.find(i => i.id === -1))}
+        >
           Add new item
         </Button>
       </Paper>
@@ -99,15 +130,19 @@ export default function Media() {
                   <>
                     <ListItemAvatar>{getLogo(item.type)}</ListItemAvatar>
                     <ListItemText primary={item.title} secondary={item.date} />
-                    <ListItemSecondaryAction>
-                      <IconButton>
-                        <Edit />
-                      </IconButton>
-                    </ListItemSecondaryAction>
                   </>
                 ) : (
                   <>
-                    <ListItemAvatar>{getLogo("error")}</ListItemAvatar>
+                    <div ref={avatarRef} onClick={e => setAnchorEl(e.currentTarget)}>
+                      <ListItemAvatar>{getLogo(item.type)}</ListItemAvatar>
+                    </div>
+                    <Menu anchorEl={anchorEl} open={Boolean(anchorEl)}>
+                      {categories.map(type => (
+                        <MenuItem key={type} onClick={() => handleMenuChange(type)}>
+                          {type}
+                        </MenuItem>
+                      ))}
+                    </Menu>
                     <div className="Media-textfield-area">
                       <TextField placeholder="Title" name="title" onChange={handleChange} />
                       <TextField type="date" name="date" defaultValue={media[0].date} onChange={handleChange} />

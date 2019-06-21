@@ -1,0 +1,18 @@
+.AlbumDrawer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 0 auto;
+  max-width: var(--maxWidth);
+  min-height: 30vh;
+  padding: 30px 0;
+  grid-gap: 10px;
+}
+
+.AlbumDrawer > * {
+  display: flex;
+  flex-direction: column;
+}
+
+.AlbumDrawer .thumbnail img {
+  max-height: 30vh;
+}

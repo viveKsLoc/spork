@@ -35,7 +35,7 @@ export default function ProfilePic({ editMode, pic }) {
 
   const profilePicWrapper = useSpring({ height: tab === 1 || tab === 2 ? 0 : 200 });
 
-  const newPic = useSpring({ opacity: isHover ? 1 : 0 });
+  const newPic = useSpring({ opacity: isHover ? 1 : 0, pointerEvents: isHover ? "auto" : "none" });
 
   function handleUpload(e) {
     if (e.target.files[0]) {

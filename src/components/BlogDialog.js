@@ -4,7 +4,7 @@ import "./BlogDialog.css";
 import noImage from "../assets/no-image.png";
 
 export default function BlogDialog(props) {
-  const { open, item, onClose, onDelete, onCancel, onEdit, onChange, onSave } = props;
+  const { open, item, onClose, onDelete, onCancel, onEdit, onChange, onSave, isOwner } = props;
   const fileInput = useRef(null);
 
   const [editMode, setEditMode] = useState(false);
@@ -53,7 +53,9 @@ export default function BlogDialog(props) {
     }
   }
 
-  const descriptionFormatted = item.description ? item.description.split("\n").map((des, i) => <p key={i}>{des}</p>) : "";
+  const descriptionFormatted = item.description
+    ? item.description.split("\n").map((des, i) => <p key={i}>{des}</p>)
+    : "";
 
   const renderBody = !editMode ? (
     <>
@@ -66,8 +68,12 @@ export default function BlogDialog(props) {
         <Button color="secondary" onClick={handleClose}>
           Close
         </Button>
-        <Button onClick={handleEdit}>Edit</Button>
-        <Button onClick={() => onDelete(item.id)}>Delete</Button>
+        {isOwner && (
+          <>
+            <Button onClick={handleEdit}>Edit</Button>
+            <Button onClick={() => onDelete(item.id)}>Delete</Button>
+          </>
+        )}
       </DialogActions>
     </>
   ) : (
@@ -75,10 +81,18 @@ export default function BlogDialog(props) {
       <DialogContent>
         <TextField margin="dense" label="Title" name="title" value={item.title} onChange={onChange} fullWidth />
         <br />
-        <TextField margin="dense" multiline rows="10" name="description" value={item.description} onChange={onChange} fullWidth />
+        <TextField
+          margin="dense"
+          multiline
+          rows="10"
+          name="description"
+          value={item.description}
+          onChange={onChange}
+          fullWidth
+        />
       </DialogContent>
       <DialogActions>
-        <Button color="primary" variant="contained" onClick={handleSave}>
+        <Button color="secondary" variant="contained" onClick={handleSave}>
           Save
         </Button>
         <Button onClick={handleCancel}>Cancel</Button>

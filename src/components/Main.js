@@ -8,6 +8,7 @@ import Bio from "./Bio";
 import { LocationOn, Subject, Image, Extension } from "@material-ui/icons";
 import FriendList from "./FriendList";
 import Media from "./Media";
+import { Redirect } from "react-router-dom";
 
 const menuPoints = [
   { text: "Blog", icon: <Subject color="secondary" /> },
@@ -17,6 +18,8 @@ const menuPoints = [
 
 export default function Main() {
   const { tab, snackbar, dispatch, editMode, user, users, auth } = useContext(Context);
+
+  console.log("Main is rendering");
 
   function renderFeed() {
     switch (tab) {
@@ -35,6 +38,7 @@ export default function Main() {
 
   return (
     <div className="grid">
+      {!auth.id && <Redirect to="/login" />}
       <Paper className="grid-left">
         <ProfilePic editMode={editMode} pic={user.pic} />
         <List>
@@ -67,7 +71,12 @@ export default function Main() {
             <Bio bio={user.bio} editMode={editMode} dispatch={dispatch} />
           </ListItem>
           {menuPoints.map((point, i) => (
-            <ListItem key={`menu_${i}`} button selected={tab === i} onClick={() => dispatch({ type: "setTab", payload: i })}>
+            <ListItem
+              key={`menu_${i}`}
+              button
+              selected={tab === i}
+              onClick={() => dispatch({ type: "setTab", payload: i })}
+            >
               <ListItemIcon>{point.icon}</ListItemIcon>
               <ListItemText primary={point.text} />
             </ListItem>
