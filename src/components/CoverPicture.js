@@ -8,9 +8,9 @@ import { useSpring, animated, useTransition } from "react-spring";
 
 import { withRouter } from "react-router-dom";
 
-import img1 from "../assets/1.jpeg";
-import img2 from "../assets/2.jpeg";
-import img3 from "../assets/3.jpeg";
+import img1 from "../assets/1_.jpeg";
+import img2 from "../assets/2_.jpeg";
+import img3 from "../assets/3_.jpeg";
 function getUrl(tab_) {
   switch (tab_) {
     case 0:
@@ -19,6 +19,8 @@ function getUrl(tab_) {
       return img2;
     case 2:
       return img3;
+    default:
+      return new Error("Wrong image");
   }
 }
 
@@ -88,7 +90,7 @@ function CoverPicture({ location }) {
                 )}
               </Fab>
               <animated.div style={cancelBtn}>
-                <Button variant="outlined" onClick={handleCancel}>
+                <Button variant="contained" color="default" onClick={handleCancel}>
                   Cancel
                 </Button>
               </animated.div>

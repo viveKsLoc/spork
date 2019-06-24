@@ -1,18 +1,31 @@
 .AlbumDrawer {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  min-height: 40vh;
+}
+
+.Album-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   margin: 0 auto;
-  max-width: var(--maxWidth);
-  min-height: 30vh;
   padding: 30px 0;
   grid-gap: 10px;
+  height: 100%;
 }
 
-.AlbumDrawer > * {
+.Album-grid > * {
   display: flex;
   flex-direction: column;
 }
 
 .AlbumDrawer .thumbnail img {
-  max-height: 30vh;
+  object-fit: cover;
+  height: 30vh;
+  width: 100%;
+}
+
+@media (max-width: 700px) {
+  .Album-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -9,6 +9,7 @@
   width: 100%;
   background-size: cover;
   transition: all 0.3s ease-in;
+  background-position: center;
 }
 
 .CoverPicture .edit {
@@ -41,7 +42,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-position: center;
 }
 
 .CoverPicture .Tab2-top-div {

@@ -25,7 +25,7 @@ const albumsHard = [
       "https://images.pexels.com/photos/2088282/pexels-photo-2088282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     ],
     id: 1,
-    description: ""
+    description: "Lorem ipsum dolor sit amet."
   },
   {
     img:
@@ -38,7 +38,8 @@ const albumsHard = [
       "https://images.pexels.com/photos/2088282/pexels-photo-2088282.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
     ],
     id: 2,
-    description: ""
+    description:
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Temporibus fugiat beatae consectetur officia alias odio distinctio minus incidunt nobis voluptate!"
   }
 ];
 
@@ -61,11 +62,11 @@ export default function Albums({ isOwner }) {
     }
 
     if (destination.index !== source.index) {
-      const newAlbum = [...albums];
-      const oldDest = newAlbum[destination.index];
-      newAlbum[destination.index] = newAlbum[source.index];
-      newAlbum[source.index] = oldDest;
-      setAlbums(newAlbum);
+      const newAlbums = [...albums];
+      const itemToMove = albums[source.index];
+      newAlbums.splice(source.index, 1);
+      newAlbums.splice(destination.index, 0, itemToMove);
+      setAlbums(newAlbums);
     }
   }
 
@@ -95,18 +96,18 @@ export default function Albums({ isOwner }) {
     newAlbums[index] = item;
     setAlbums(newAlbums);
     setEditMode(false);
+    setShowDrawer(false);
   }
 
   return (
     <div>
       <div>
-        {isOwner && (
-          <AlbumAdmin
-            albumSelected={albumSelected}
-            onClickNewAlbum={handleCreateAlbum}
-            setSelectedAlbum={setSelectedAlbum}
-          />
-        )}
+        <AlbumAdmin
+          albumSelected={albumSelected}
+          onClickNewAlbum={handleCreateAlbum}
+          setSelectedAlbum={setSelectedAlbum}
+          isOwner={isOwner}
+        />
         <DragDropContext onDragEnd={handleDragEnd}>
           {albumSelected ? (
             <AlbumSelected item={selectedAlbum} />

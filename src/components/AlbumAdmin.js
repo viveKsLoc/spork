@@ -4,12 +4,14 @@ import { KeyboardBackspace } from "@material-ui/icons";
 
 const MemoAlbumAdmin = React.memo(AlbumAdmin);
 
-function AlbumAdmin({ albumSelected, setSelectedAlbum, onClickNewAlbum }) {
+function AlbumAdmin({ albumSelected, setSelectedAlbum, onClickNewAlbum, isOwner }) {
   return (
     <Paper className="menu">
-      <Button variant="contained" color="secondary" onClick={onClickNewAlbum}>
-        New album
-      </Button>
+      {isOwner && (
+        <Button variant="contained" color="secondary" onClick={onClickNewAlbum}>
+          New album
+        </Button>
+      )}
       {albumSelected && (
         <Button onClick={setSelectedAlbum}>
           <KeyboardBackspace />

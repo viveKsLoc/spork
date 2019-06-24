@@ -1,0 +1,36 @@
+.AlbumPictures {
+  padding: 30px 0;
+}
+
+.drop-n-drop-area {
+  display: flex;
+  overflow: auto;
+}
+
+.drop-n-drop-area > * {
+  margin-right: 5px;
+}
+
+.droppabe-wrapper {
+  overflow: auto;
+  width: 100%;
+}
+
+.PortalItem {
+  position: relative;
+}
+
+.PortalItem button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  transition: opacity 0.3s ease-in;
+}
+
+.PortalItem button {
+  opacity: 0;
+}
+
+.PortalItem:hover button {
+  opacity: 1;
+}

@@ -12,7 +12,7 @@ import {
   TextField,
   MenuItem
 } from "@material-ui/core";
-import { Edit, Movie, Book, School, Games, Error, CheckCircle, Cancel } from "@material-ui/icons";
+import { Movie, Book, School, Games, Error, CheckCircle, Cancel, Delete } from "@material-ui/icons";
 import "./Media.css";
 import { format } from "date-fns";
 import { getRandomValue } from "../functions";
@@ -59,7 +59,7 @@ function getLogo(type) {
 
 const categories = ["movie", "book", "education", "videogame"];
 
-export default function Media() {
+export default function Media({ isOwner }) {
   const [media, setMedia] = useState(mediaHard);
   const avatarRef = useRef(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -109,18 +109,25 @@ export default function Media() {
     setMedia(newMedia);
   }
 
+  function handleDelete(index) {
+    const newMedia = media.filter((_, i) => i !== index);
+    setMedia(newMedia);
+  }
+
   return (
     <div>
-      <Paper className="menu">
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={handleCreate}
-          disabled={Boolean(media.find(i => i.id === -1))}
-        >
-          Add new item
-        </Button>
-      </Paper>
+      {isOwner && (
+        <Paper className="menu">
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={handleCreate}
+            disabled={Boolean(media.find(i => i.id === -1))}
+          >
+            Add new item
+          </Button>
+        </Paper>
+      )}
       <animated.div style={animateWrapper}>
         <Paper>
           <List disablePadding>
@@ -130,6 +137,13 @@ export default function Media() {
                   <>
                     <ListItemAvatar>{getLogo(item.type)}</ListItemAvatar>
                     <ListItemText primary={item.title} secondary={item.date} />
+                    {isOwner && (
+                      <ListItemSecondaryAction>
+                        <IconButton onClick={() => handleDelete(index)}>
+                          <Delete />
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    )}
                   </>
                 ) : (
                   <>
@@ -148,8 +162,8 @@ export default function Media() {
                       <TextField type="date" name="date" defaultValue={media[0].date} onChange={handleChange} />
                     </div>
                     <ListItemSecondaryAction>
-                      <IconButton onClick={handleSave}>
-                        <CheckCircle color="secondary" />
+                      <IconButton onClick={handleSave} disabled={media[0].title === "" || media[0].type === "error"}>
+                        <CheckCircle />
                       </IconButton>
                       <IconButton onClick={handleCancel}>
                         <Cancel />

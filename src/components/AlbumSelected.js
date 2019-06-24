@@ -23,9 +23,11 @@ export default function AlbumSelected({ item }) {
         <CardImage src={img} height={200} />
         <CardContent>
           <Typography variant="h5">{title}</Typography>
-          <Grid>
+          <Grid container>
             <Typography variant="">{description}</Typography>
-            <Typography variant="caption">{date}</Typography>
+            <Typography variant="caption" style={{ marginLeft: "auto" }}>
+              {date}
+            </Typography>
           </Grid>
           <GridList cellHeight={180} cols={3} style={{ marginTop: 10 }}>
             {items.map((tile, i) => (

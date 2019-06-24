@@ -17,7 +17,7 @@ export default function Album({ item, onClick, isOwner, onEdit }) {
           <Photo />
         </IconButton>
         {isOwner && (
-          <IconButton color="secondary" onClick={() => onEdit(item)}>
+          <IconButton onClick={() => onEdit(item)}>
             <Edit />
           </IconButton>
         )}

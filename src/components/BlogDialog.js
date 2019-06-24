@@ -103,7 +103,7 @@ export default function BlogDialog(props) {
   return (
     <Dialog open={open} onClose={handleClose} className="BlogDialog">
       <div className="img-container">
-        <img src={item.img} height={300} onError={e => (e.target.src = noImage)} />
+        <img src={item.img} height={300} alt="Cover" onError={e => (e.target.src = noImage)} />
         {editMode && (
           <div className="btn-container">
             <Button variant="contained" color="secondary" onClick={() => fileInput.current.click()}>

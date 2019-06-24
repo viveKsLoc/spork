@@ -22,12 +22,12 @@ export default function Login({ history }) {
           </Grid>
         </CardContent>
         <CardActions>
-          <Button variant="contained" color="primary" onClick={handleLogin}>
+          <Button variant="contained" color="secondary" onClick={handleLogin}>
             Log in
           </Button>
         </CardActions>
       </Card>
-      <img src={frontpageImg} className="front-page-img" />
+      <img src={frontpageImg} alt="" className="front-page-img" />
     </div>
   );
 }

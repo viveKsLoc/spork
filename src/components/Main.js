@@ -22,13 +22,14 @@ export default function Main() {
   console.log("Main is rendering");
 
   function renderFeed() {
+    const isOwner = auth.id === user.id;
     switch (tab) {
       case 0:
-        return <Blog isOwner={auth.id === user.id} />;
+        return <Blog isOwner={isOwner} />;
       case 1:
-        return <Albums isOwner={auth.id === user.id} />;
+        return <Albums isOwner={isOwner} />;
       case 2:
-        return <Media />;
+        return <Media isOwner={isOwner} />;
       default:
         return new Error("Missing tab");
     }

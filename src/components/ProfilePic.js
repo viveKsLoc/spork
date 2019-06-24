@@ -1,8 +1,8 @@
 import React, { useState, useRef, useContext } from "react";
-import { useSpring, animated, useTransition } from "react-spring";
+import { useSpring, animated } from "react-spring";
 import "./ProfilePic.css";
 import { IconButton } from "@material-ui/core";
-import { Image, Movie } from "@material-ui/icons";
+import { Image } from "@material-ui/icons";
 import Context from "./Context";
 
 const yAxis = "-210px";
@@ -21,6 +21,8 @@ export default function ProfilePic({ editMode, pic }) {
         return [`translate3d(0,${yAxis},0) scale(0.9)`, "absolute", 200, 200];
       case 2:
         return [`translate3d(0,${yAxis},0) scale(0.9)`, "absolute", 200, 200];
+      default:
+        return new Error("No animation values");
     }
   }
 
