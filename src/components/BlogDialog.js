@@ -10,9 +10,7 @@ export default function BlogDialog(props) {
   const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    console.log("useEffect ran", open, item);
     if (item && item.id === -1) {
-      console.log("Go edit mode");
       setEditMode(true);
     }
   }, [open]);

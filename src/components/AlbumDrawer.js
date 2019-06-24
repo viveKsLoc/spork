@@ -22,10 +22,8 @@ export default function AlbumDrawer(props) {
 
   useEffect(() => {
     if (editMode) {
-      console.log("Editmode on!");
       setItem(editMode);
     } else {
-      console.log("new", item);
       setItem(item => ({ ...item, date: format(new Date(), "YYYY-MM-DD") }));
     }
   }, [open]);
@@ -39,7 +37,6 @@ export default function AlbumDrawer(props) {
     if (file) {
       const filereader = new FileReader();
       filereader.onload = res => {
-        console.log(res);
         setItem({ ...item, img: res.target.result });
       };
       filereader.readAsDataURL(file);
@@ -52,7 +49,6 @@ export default function AlbumDrawer(props) {
   }
 
   function handlePhotoDragEnd({ source, destination }) {
-    console.log("handlePhoto", source, destination);
     if (!destination) {
       return;
     }

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Card, CardContent, TextField, CardActions, Button, Grid } from "@material-ui/core";
 import Context from "./Context";
-import frontpageImg from "../assets/sc.png";
+import frontpageImg from "../assets/front.png";
 import "./Login.css";
 
 export default function Login({ history }) {

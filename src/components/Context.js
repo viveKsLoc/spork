@@ -24,6 +24,8 @@ function reducer(state, action) {
       return { ...state, user: state.formCopy };
     case "login":
       return { ...state, auth: { ...state.auth, id: 1 } };
+    case "logout":
+      return { ...state, auth: { ...state.auth, id: 0 } };
     default:
       throw new Error();
   }

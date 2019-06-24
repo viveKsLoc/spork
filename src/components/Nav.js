@@ -13,6 +13,11 @@ function Nav({ history }) {
     setAnchorEl(null);
   }
 
+  function handleLogout() {
+    ctx.dispatch({ type: "logout" });
+    handleClick("/login");
+  }
+
   return (
     <AppBar position="fixed" color="secondary">
       <Toolbar className="Toolbar">
@@ -27,15 +32,24 @@ function Nav({ history }) {
                 <People style={{ color: "white" }} />
               </IconButton>
             </Tooltip>
-            <Avatar src={ctx.auth.pic} onClick={e => setAnchorEl(e.currentTarget)} />
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} className="nav-menu" onClose={() => setAnchorEl(null)}>
-              <MenuItem onClick={() => handleClick("/profile")}>Profile</MenuItem>
-              <MenuItem>
-                Make profile public
-                <Checkbox color="secondary" checked style={{ marginLeft: 10 }} />
-              </MenuItem>
-              <MenuItem onClick={() => handleClick("/login")}>Logout</MenuItem>
-            </Menu>
+            {ctx.auth.id && (
+              <>
+                <Avatar src={ctx.auth.pic} onClick={e => setAnchorEl(e.currentTarget)} />
+                <Menu
+                  anchorEl={anchorEl}
+                  open={Boolean(anchorEl)}
+                  className="nav-menu"
+                  onClose={() => setAnchorEl(null)}
+                >
+                  <MenuItem onClick={() => handleClick("/profile")}>Profile</MenuItem>
+                  <MenuItem>
+                    Make profile public
+                    <Checkbox color="secondary" checked style={{ marginLeft: 10 }} />
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </>
+            )}
           </>
         ) : null}
       </Toolbar>
