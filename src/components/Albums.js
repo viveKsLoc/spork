@@ -75,7 +75,7 @@ export default function Albums({ isOwner }) {
   }
 
   function handleSave(item) {
-    const newAlbums = [].concat(item, albums);
+    const newAlbums = [item, ...albums];
     setAlbums(newAlbums);
     setShowDrawer(false);
   }

@@ -80,7 +80,7 @@ export default function Media({ isOwner }) {
       type: "error",
       date: format(new Date(), "YYYY-MM-DD")
     };
-    const newMedia = [].concat(newItem, media);
+    const newMedia = [newItem, ...media];
     setMedia(newMedia);
   }
 
