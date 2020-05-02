@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, TableBody, TableHead, TableRow, TableCell, Button, Input } from '@material-ui/core';
+import { Table, TableBody, TableHead, TableRow, TableCell, Input } from '@material-ui/core';
 import axios from 'axios';
 
 export default function ViewServerData() {
