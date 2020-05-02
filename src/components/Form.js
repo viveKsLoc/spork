@@ -44,7 +44,6 @@ export default class Form extends Component {
     handleClick = event => {
         const { fields, ...inputFields } = this.state;
         console.log(inputFields);
-
         event.preventDefault();
     }
 
