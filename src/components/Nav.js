@@ -24,6 +24,12 @@ function Nav({ history }) {
         <Link to="/login">
           <Style fontSize="large" style={{ color: "white" }} />
         </Link>
+        <Link to="/create">
+          Form
+        </Link>
+        <Link to="/read">
+          Table
+        </Link>
         <div style={{ flexGrow: 1 }} />
         {ctx.auth.id ? (
           <>

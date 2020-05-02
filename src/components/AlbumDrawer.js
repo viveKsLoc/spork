@@ -26,7 +26,7 @@ export default function AlbumDrawer(props) {
     } else {
       setItem(item => ({ ...item, date: format(new Date(), "YYYY-MM-DD") }));
     }
-  }, [open]);
+  }, [open, editMode]);
 
   function handleChange(e) {
     setItem({ ...item, [e.target.name]: e.target.value });

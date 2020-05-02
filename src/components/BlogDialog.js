@@ -13,7 +13,7 @@ export default function BlogDialog(props) {
     if (item && item.id === -1) {
       setEditMode(true);
     }
-  }, [open]);
+  }, [open, item]);
 
   if (!item) return null;
 
